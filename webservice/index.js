@@ -43,10 +43,13 @@ app.get('/movies', async (req, res, next)=>{
         const {query} = req.query;
         const data = await fetchMovies(query);
 
+        const movies = data.slice(0,10); //only first 10
+
+      
         return res.status(200).json({
           status:200,
-          message: `${data.length} movies found`, 
-          data
+        //   message: `${data.length}`, 
+          movies
         })
       } catch (err) {
         return next(err);
