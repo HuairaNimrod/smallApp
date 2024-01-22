@@ -1,25 +1,41 @@
 <template>
 
-<input type="text" v-model="input" placeholder="Enter movie name" />
-<button @click="lookMovie">search</button>
- 
+<form v-on:submit.prevent="lookMovie">
+  <input v-model="itemMovie" placeholder="Enter movie name" />
+  <button>search</button>
+</form>
+
+<div id="app">
+  {{ info }}
+</div>
+
+
 </template>
 
 
-<script setup>
-async function lookMovie(){
-  try {
-    const movie = "mulan"
-    const response =  await fetch(`http://localhost:8080/movies?query=${movie}`);
-    const listmovies =  response.json();
-    console.log(listmovies);
-  } catch (error) {
-    console.error(error);
+<script>
+import axios from 'axios'
+
+export default {
+  data(){
+    {
+      return{
+        itemMovie : null ,// this is used to prevent access to input during render
+        info : null 
+      }
+    }
+  },
+  methods:{
+    async lookMovie(){
+      axios 
+      .get(`http://localhost:8080/movies?query=${this.itemMovie}`)
+      .then(response => (this.info = response.data))
+      .catch(error => console.log(error))
+    }
   }
 }
 
 </script>
-
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
@@ -42,7 +58,7 @@ input {
   width: 350px;
   margin: 20px auto;
   padding: 10px 45px;
-  background: white url("assets/search-icon.svg") no-repeat 15px center;
+  background: white 15px center;
   background-size: 15px 15px;
   font-size: 16px;
   border: none;

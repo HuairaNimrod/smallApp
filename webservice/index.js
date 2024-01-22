@@ -45,7 +45,7 @@ app.get('/movies', async (req, res, next)=>{
 
         const movies = data.slice(0,10); //only first 10
 
-      
+        res.set('Access-Control-Allow-Origin', '*');  //allow api can be consumed from any origin
         return res.status(200).json({
           status:200,
         //   message: `${data.length}`, 
